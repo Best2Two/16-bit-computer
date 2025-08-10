@@ -1,0 +1,23 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/Register.hdl
+/**
+ * 16-bit register:
+ * If load is asserted, the register's value is set to in;
+ * Otherwise, the register maintains its current value:
+ * if (load(t)) out(t+1) = int(t), else out(t+1) = out(t)
+ */
+CHIP Bit {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    
+    //I assume that bit cells won't be built by Mux everytime a CPU fetches Q on a clock cycle they will find it, so only DFF is enough
+
+    //D Flip-Flop implemented in the chip Bit, assuming diffin is default parameterized
+    DFF(in=dffin, out=dffout, out=out);
+    //Set the new data to the D Flip Flop
+    Mux(a=in , b=dffout , sel=load , out=dffin );
+}
